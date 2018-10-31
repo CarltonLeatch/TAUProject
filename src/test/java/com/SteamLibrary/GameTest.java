@@ -1,5 +1,6 @@
 package com.SteamLibrary;
 
+import com.SteamLibrary.Model.Game;
 import com.SteamLibrary.Service.GameService;
 import com.SteamLibrary.Service.IGameService;
 import org.junit.*;
