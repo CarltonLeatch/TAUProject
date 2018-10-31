@@ -53,5 +53,6 @@ public class GameTest {
     @Test
     public void objectHasChangedNameAndCompanyName(){
         assertTrue("Object should've changed",gameService.update(3,"Call of Duty: Black Ops 4", "Activision"));
+
     }
 }

@@ -7,9 +7,9 @@ public class Game {
     private int id;
     private String name;
     private String companyName;
-    private LocalDateTime createTime;
-    private LocalDateTime modifyTime;
-    private LocalDateTime readTime;
+    private LocalDate createTime;
+    private LocalDate modifyTime;
+    private LocalDate readTime;
 
 
     public String getName() {
@@ -48,29 +48,32 @@ public class Game {
                 '}';
     }
 
-    public LocalDateTime getCreateTime() {
+    public LocalDate getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(LocalDate createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDateTime getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(LocalDateTime modifyTime) {
+    public void setModifyTime(LocalDate modifyTime) {
         this.modifyTime = modifyTime;
     }
 
-    public LocalDateTime getReadTime() {
+    public void setReadTime(LocalDate readTime) {
+        this.readTime = readTime;
+    }
+
+    public LocalDate getModifyTime() {
+        return modifyTime;
+    }
+
+
+
+    public LocalDate getReadTime() {
         return readTime;
     }
 
-    public void setReadTime(LocalDateTime readTime) {
-        this.readTime = readTime;
-    }
 
     public Game(int id, String name, String companyName) {
         this.id = id;

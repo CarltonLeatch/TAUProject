@@ -41,7 +41,8 @@ public class GameDao implements IGameDao{
         Game game = new Game(id,name,companyName);
         if(!isPrepertyIdUnique(game))
         {
-            game.setCreateTime(LocalDateTime.now());
+            if(this.addCreateTime)
+                 game.setCreateTime(LocalDateTime.now().toLocalDate());
             db.add(game);
             return true;
         }
@@ -50,13 +51,15 @@ public class GameDao implements IGameDao{
     }
     public List<Game> readAll() {
         for(Game g : db)
-            g.setReadTime(LocalDateTime.now());
+            if(this.addReadTime)
+                 g.setReadTime(LocalDateTime.now().toLocalDate());
         return db;
     }
     public Game read(int id){
         for(Game g : db){
             if(g.getId() == id) {
-             g.setReadTime(LocalDateTime.now());
+                if(this.addReadTime)
+                     g.setReadTime(LocalDateTime.now().toLocalDate());
                 return g;
             }
         }
@@ -81,7 +84,8 @@ public class GameDao implements IGameDao{
         _g.setReadTime(g.getReadTime());
         _g.setModifyTime(g.getModifyTime());
         delete(id);
-        _g.setModifyTime(LocalDateTime.now());
+        if(this.addModifyTime)
+        _g.setModifyTime(LocalDateTime.now().toLocalDate());
         return db.add(_g);
     }
 }
