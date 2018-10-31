@@ -60,9 +60,7 @@ public class MocketGameTest {
     public void checkReadDateFromGameObject(){
         Game g = new Game(1, "Mockito" , "Mockito");
         g.setReadTime(LocalDateTime.now());
-        when(gameDao.create(g.getId(),g.getName(),g.getCompanyName())).thenReturn(true);
-        assertTrue(gameDao.create(g.getId(),g.getName(),g.getCompanyName()));
-
+     
         when(gameDao.read(1)).thenReturn(g);
         Game game = gameDao.read(1);
 
