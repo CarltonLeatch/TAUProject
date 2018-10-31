@@ -66,6 +66,6 @@ public class MocketGameTest {
         when(gameDao.read(1)).thenReturn(g);
         Game game = gameDao.read(1);
 
-        assertEquals(game.getReadTime(), LocalDateTime.now());
+        assertEquals(game.getReadTime().toLocalDate(), LocalDateTime.now().toLocalDate());
     }
 }
