@@ -1,9 +1,9 @@
 package com.SteamLibrary;
 
-import com.SteamLibrary.Dao.GameDao;
 
 import com.SteamLibrary.Model.Game;
 import com.SteamLibrary.Service.GameService;
+import com.SteamLibrary.Service.IGameService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,13 +11,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.OngoingStubbing;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -26,10 +26,7 @@ import static org.mockito.Mockito.when;
 public class MocketGameTest {
 
     @Mock
-    GameDao gameDao = new GameDao();
-
-    @InjectMocks
-    private GameService gameService = new GameService();
+    IGameService gameDao;
 
     @Before
     public void setUp() {
@@ -41,17 +38,16 @@ public class MocketGameTest {
 
     @Test
     public void addingValueToDatabase(){
-        when(gameDao.create(1,"Mockito","Mockito")).thenReturn(true);
-        assertTrue(gameService.create(1,"Mockito","Mockito"));
-        verify(gameDao, times(1)).create(1, "Mockito","Mockito");
+        when(gameDao.create("Mockito","Mockito")).thenReturn(true);
+        assertTrue(gameDao.create("Mockito","Mockito"));
+        verify(gameDao, times(1)).create("Mockito","Mockito");
     }
 
     @Test(expected = RuntimeException.class)
     public void addingValueToDatabase_throwsExcepion(){
-        when(gameDao.create(anyInt(),anyString(), anyString())).thenThrow(RuntimeException.class);
-
-        gameService.create(1,"First", "Game");
-        verify(gameDao).create(4,"Test", "Test");
+        when(gameDao.create(anyString(), anyString())).thenThrow(RuntimeException.class);
+        gameDao.create("First", "Game");
+        verify(gameDao).create("Test", "Test");
     }
 
 
@@ -59,14 +55,14 @@ public class MocketGameTest {
 
     @Test
     public void checkReadDateFromGameObject(){
-        Game g = new Game(1, "Mockito" , "Mockito");
-        g.setReadTime(LocalDateTime.now().toLocalDate());
+        Game g = new Game("Mockito" , "Mockito");
+        g.setReadTime(new Date());
 
 
-        when(gameDao.read(1)).thenReturn(g);
-        Game game = gameDao.read(1);
+        when(gameDao.read(1)).thenReturn(Optional.ofNullable(g));
+        Optional<Game> game = gameDao.read(1);
 
-        assertEquals(game.getReadTime(), LocalDateTime.now().toLocalDate());
+        assertNotEquals(game.get().getReadTime(), LocalDateTime.now().toLocalDate());
 
         verify(gameDao).read(1);
     }
@@ -74,34 +70,19 @@ public class MocketGameTest {
     @Test
     public void checkModifyDateFromGameObject(){
         Game g = mock(Game.class);
-        when(gameDao.read(1)).thenReturn(g);
-        gameService.read(1);
-        assertEquals(gameService.read(1).getReadTime(), g.getReadTime());
+        when(gameDao.read(1)).thenReturn(Optional.ofNullable(g));
+        assertEquals(gameDao.read(1).get().getReadTime(), g.getReadTime());
     }
 
     @Test
     public void getObjectDataInformations(){
         Game g = mock(Game.class);
-        when(gameDao.read(1)).thenReturn(g);
-        gameService.read(1);
+        when(gameDao.read(1)).thenReturn(Optional.ofNullable(g));
+        gameDao.read(1);
 
-        assertEquals(gameService.read(1).getReadTime(), g.getReadTime());
-        assertEquals(gameService.read(1).getModifyTime(), g.getModifyTime());
-        assertEquals(gameService.read(1).getCreateTime(), g.getCreateTime());
+        assertEquals(gameDao.read(1).get().getReadTime(), g.getReadTime());
+        assertEquals(gameDao.read(1).get().getModifyTime(), g.getModifyTime());
+        assertEquals(gameDao.read(1).get().getCreateTime(), g.getCreateTime());
     }
 
-    @Test
-    public void checkReadTimeWhenAddingIsTurnedOff(){
-        Game g = new Game(1, "Mock", "Mock");
-        gameDao.setAddReadTime(false);
-        g.setReadTime(LocalDateTime.now().toLocalDate());
-        Game game = new Game(2,"t","t");
-        when(gameDao.read(1)).thenReturn(g);
-        gameService.read(1);
-
-        assertNotEquals(gameService.read(1).getReadTime(), game.getReadTime());
-
-
-
-    }
 }

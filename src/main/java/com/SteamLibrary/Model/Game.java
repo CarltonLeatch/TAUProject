@@ -1,40 +1,35 @@
 package com.SteamLibrary.Model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Game {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String companyName;
-    private LocalDate createTime;
-    private LocalDate modifyTime;
-    private LocalDate readTime;
+    @CreatedDate
+    private Date createTime;
+    @LastModifiedDate
+    private Date modifyTime;
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
+    private Date readTime;
 
     @Override
     public String toString() {
@@ -48,35 +43,9 @@ public class Game {
                 '}';
     }
 
-    public LocalDate getCreateTime() {
-        return createTime;
-    }
 
-    public void setCreateTime(LocalDate createTime) {
-        this.createTime = createTime;
-    }
+    public Game(String name, String companyName) {
 
-    public void setModifyTime(LocalDate modifyTime) {
-        this.modifyTime = modifyTime;
-    }
-
-    public void setReadTime(LocalDate readTime) {
-        this.readTime = readTime;
-    }
-
-    public LocalDate getModifyTime() {
-        return modifyTime;
-    }
-
-
-
-    public LocalDate getReadTime() {
-        return readTime;
-    }
-
-
-    public Game(int id, String name, String companyName) {
-        this.id = id;
         this.name = name;
         this.companyName = companyName;
     }
