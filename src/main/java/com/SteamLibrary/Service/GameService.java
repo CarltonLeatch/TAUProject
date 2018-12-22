@@ -53,4 +53,9 @@ public class GameService implements IGameService {
         _gameDao.save(game);
         return true;
     }
+
+    @Override
+    public Game findByCompanyName(String companyName) {
+        return _gameDao.findByCompanyName(companyName);
+    }
 }

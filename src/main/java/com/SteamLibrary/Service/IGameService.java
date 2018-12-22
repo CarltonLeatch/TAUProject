@@ -11,4 +11,5 @@ public interface IGameService {
     Optional<Game> read(int id);
     boolean delete(int id);
     boolean update(int id, String name, String companyName);
+    Game findByCompanyName(String companyName);
 }

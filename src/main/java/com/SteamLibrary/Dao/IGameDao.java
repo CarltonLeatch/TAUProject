@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface IGameDao extends JpaRepository<Game, Integer> {
-
+        public Game findByCompanyName(String companyName);
 }
